@@ -1,77 +1,16 @@
 version: '3.8'
-
 services:
   postgres:
     image: postgres:14
+    container_name: postgres-container
     environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
-      POSTGRES_DB: stockdb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-  spark-master:
-    image: bitnami/spark:latest
-    environment:
-      - SPARK_MODE=master
-    ports:
-      - "7077:7077"
-      - "8080:8080"
-
-  spark-worker:
-    image: bitnami/spark:latest
-    environment:
-      - SPARK_MODE=worker
-      - SPARK_MASTER_URL=spark://spark-master:7077
-    depends_on:
-      - spark-master
-
-  airflow-webserver:
-    image: apache/airflow:2.7.0
-    restart: always
-    environment:
-      AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/stockdb
-      AIRFLOW__CORE__FERNET_KEY: ''
-      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
-    volumes:
-      - ./airflow/dags:/opt/airflow/dags
-    ports:
-      - "8081:8080"
-    depends_on:
-      - postgres
-
-  airflow-scheduler:
-    image: apache/airflow:2.7.0
-    restart: always
-    command: scheduler
-    environment:
-      AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/stockdb
-    volumes:
-      - ./airflow/dags:/opt/airflow/dags
-    depends_on:
-      - airflow-webserver
-
-  dbt:
-    image: fishtownanalytics/dbt:latest
-    volumes:
-      - ./dbt:/dbt
-    working_dir: /dbt
-    depends_on:
-      - postgres
-
-  superset:
-    image: apache/superset:latest
-    environment:
-      SUPERSET_DATABASE_URI: postgresql://airflow:airflow@postgres/stockdb
-    ports:
-      - "8088:8088"
-    depends_on:
-      - postgres
 
 volumes:
   pgdata:
