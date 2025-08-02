@@ -1,0 +1,10 @@
+FROM apache/airflow:2.7.0
+
+# Switch to airflow user before installing packages
+USER airflow
+
+# Copy requirements.txt from the build context (adjust path if needed)
+COPY ../../requirements.txt /requirements.txt
+
+# Install Python packages
+RUN pip install --no-cache-dir -r /requirements.txt

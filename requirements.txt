@@ -1,0 +1,7 @@
+yfinance
+pandas
+sqlalchemy
+psycopg2-binary
+requests
+numpy
+dbt-core
