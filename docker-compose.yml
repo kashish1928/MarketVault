@@ -17,7 +17,7 @@ services:
     build:
       context: .
       dockerfile: docker/airflow/dockerfile
-    entrypoint: bash -c "airflow db init && airflow users create --username admin --password admin --firstname Kashish --lastname Joshipura --role Admin --email kashishjoshipura@gmail.com"
+    entrypoint: bash -c "airflow db init && airflow users create --username ${AIRFLOW_USER} --password ${AIRFLOW_PASSWORD} --firstname ${FIRST_NAME} --lastname ${LAST_NAME} --role Admin --email ${EMAIL}"
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/stockdb

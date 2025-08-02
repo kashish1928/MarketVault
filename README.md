@@ -12,9 +12,10 @@ MarketVault/
 │   └── scripts/
 ├── postgres/
 │   └── init.sql
-│── docker/
+├── docker/
 │   └── airflow/
 │       └── dockerfile
 ├── docker-compose.yml
-├── .env
-└── README.md
+├── requirements.txt
+├── README.md
+└── LICENSE
