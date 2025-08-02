@@ -16,7 +16,7 @@ services:
     image: apache/airflow:2.7.0
     build:
       context: .
-      dockerfile: ./airflow-dockerfile
+      dockerfile: docker/airflow/dockerfile
     entrypoint: bash -c "airflow db init && airflow users create --username admin --password admin --firstname Kashish --lastname Joshipura --role Admin --email kashishjoshipura@gmail.com"
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
@@ -33,7 +33,7 @@ services:
     image: apache/airflow:2.7.0
     build:
       context: .
-      dockerfile: ./airflow-dockerfile
+      dockerfile: docker/airflow/dockerfile
     command: webserver
     ports:
       - "8081:8080"
@@ -52,7 +52,7 @@ services:
     image: apache/airflow:2.7.0
     build:
       context: .
-      dockerfile: ./airflow-dockerfile
+      dockerfile: docker/airflow/dockerfile
     command: scheduler
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
