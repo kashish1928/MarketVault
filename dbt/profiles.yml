@@ -1,0 +1,11 @@
+default:
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: airflow
+      password: airflow
+      port: 5433  # Match the exposed port in docker-compose
+      dbname: stockdb
+      schema: public
+  target: dev
