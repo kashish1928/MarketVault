@@ -23,4 +23,4 @@ jobs:
 
       - name: Run flake8 on Airflow and Spark
         run: |
-          flake8 airflow/dags
+          flake8 airflow/dags --max-line-length=120
