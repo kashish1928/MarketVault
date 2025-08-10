@@ -5,7 +5,7 @@ default:
       host: localhost
       user: airflow
       password: airflow
-      port: 5433  # Match the exposed port in docker-compose
+      port: 5433
       dbname: stockdb
       schema: test
   target: dev

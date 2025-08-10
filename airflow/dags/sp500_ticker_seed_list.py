@@ -8,11 +8,16 @@ from airflow.utils.log.logging_mixin import LoggingMixin
 
 
 def get_sp500_tickers():
+    """
+    This DAG gets all the S&P 500 stock tickers
+    """
     logger = LoggingMixin().log
     url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
     tables = pd.read_html(url)
     df = tables[0]
-    tickers = df['Symbol']
+    tickers = df[
+        ['Symbol', 'Security', 'GICS Sector', 'GICS Sub-Industry', 'Headquarters Location']
+        ]
     engine = create_engine(
         "postgresql://airflow:airflow@postgres:5432/stockdb")
     try:
