@@ -2,7 +2,7 @@ psycopg2-binary
 requests
 numpy
 apache-airflow==2.7.0
-yfinance==0.2.18
+yfinance==0.2.65
 multitasking==0.0.9
 pandas>=1.3.0,<2.0.0
 sqlalchemy>=1.4,<2.0

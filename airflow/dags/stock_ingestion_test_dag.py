@@ -4,11 +4,32 @@ from datetime import datetime
 import yfinance as yf
 import pandas as pd
 from sqlalchemy import create_engine
+from airflow.utils.log.logging_mixin import LoggingMixin
 
 def fetch_and_store():
-    df = yf.download("AAPL", start="2023-01-01", end="2023-12-31")
-    engine = create_engine("postgresql://airflow:airflow@postgres:5432/stockdb")
-    df.to_sql("raw_stock_data", engine, if_exists="replace")
+    logger = LoggingMixin().log
+    try:
+        # Fetch data
+        df = yf.download(["AAPL","AMD","NVDA"], period='1mo')
+        if df.empty:
+            logger.info("No data returned for AAPL. Skipping database write.")
+            return
+
+        # Connect to database
+        engine = create_engine("postgresql://airflow:airflow@postgres:5432/stockdb")
+
+        # Write to database
+        try:
+            df.to_sql("raw_stock_data", engine, schema="test", if_exists="replace", index=False)
+            logger.info("Data successfully written to raw_stock_data table.")
+        except SQLAlchemyError as db_err:
+            logger.info(f"Database error during to_sql: {db_err}")
+            raise
+
+    except Exception as e:
+        logger.info(f"Unexpected error in fetch_and_store: {e}")
+        raise
+
 
 with DAG(
     dag_id="stock_ingestion_test_dag",
