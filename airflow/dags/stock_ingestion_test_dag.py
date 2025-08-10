@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from airflow.utils.log.logging_mixin import LoggingMixin
 
+
 def fetch_and_store():
     logger = LoggingMixin().log
     try:
@@ -22,9 +23,9 @@ def fetch_and_store():
         # Write to database
         try:
             df.to_sql(
-                "raw_stock_data", 
-                engine, schema="test", 
-                if_exists="replace", 
+                "raw_stock_data",
+                engine, schema="test",
+                if_exists="replace",
                 index=False)
             logger.info("Data successfully written to raw_stock_data table.")
         except SQLAlchemyError as db_err:

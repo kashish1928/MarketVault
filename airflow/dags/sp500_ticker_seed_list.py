@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from airflow.utils.log.logging_mixin import LoggingMixin
 
+
 def get_sp500_tickers():
     logger = LoggingMixin().log
     url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
@@ -16,10 +17,10 @@ def get_sp500_tickers():
         "postgresql://airflow:airflow@postgres:5432/stockdb")
     try:
         tickers.to_sql(
-            "sp500_seed_list", 
-            engine, 
-            schema="raw", 
-            if_exists="replace", 
+            "sp500_seed_list",
+            engine,
+            schema="raw",
+            if_exists="replace",
             index=False)
         logger.info("Data successfully written to sp500_seed_list.")
     except SQLAlchemyError as db_err:
