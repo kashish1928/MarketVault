@@ -8,6 +8,9 @@ from airflow.utils.log.logging_mixin import LoggingMixin
 
 
 def fetch_and_store():
+    """
+    This DAG is for testing yfinance package and airflow scheduler
+    """
     logger = LoggingMixin().log
     try:
         # Fetch data
@@ -17,8 +20,7 @@ def fetch_and_store():
             return
 
         # Connect to database
-        engine = create_engine(
-            "postgresql://airflow:airflow@postgres:5432/stockdb")
+        engine = create_engine("postgresql://airflow:airflow@postgres:5432/stockdb")
 
         # Write to database
         try:

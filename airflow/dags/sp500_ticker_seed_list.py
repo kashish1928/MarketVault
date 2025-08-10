@@ -15,11 +15,8 @@ def get_sp500_tickers():
     url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
     tables = pd.read_html(url)
     df = tables[0]
-    tickers = df[
-        ['Symbol', 'Security', 'GICS Sector', 'GICS Sub-Industry', 'Headquarters Location']
-        ]
-    engine = create_engine(
-        "postgresql://airflow:airflow@postgres:5432/stockdb")
+    tickers = df[['Symbol', 'Security', 'GICS Sector', 'GICS Sub-Industry', 'Headquarters Location']]
+    engine = create_engine("postgresql://airflow:airflow@postgres:5432/stockdb")
     try:
         tickers.to_sql(
             "sp500_seed_list",
