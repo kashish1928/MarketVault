@@ -2,25 +2,30 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 import yfinance as yf
-import pandas as pd
 from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
 from airflow.utils.log.logging_mixin import LoggingMixin
 
 def fetch_and_store():
     logger = LoggingMixin().log
     try:
         # Fetch data
-        df = yf.download(["AAPL","AMD","NVDA"], period='1mo')
+        df = yf.download(["AAPL", "AMD", "NVDA"], period='1mo')
         if df.empty:
             logger.info("No data returned for AAPL. Skipping database write.")
             return
 
         # Connect to database
-        engine = create_engine("postgresql://airflow:airflow@postgres:5432/stockdb")
+        engine = create_engine(
+            "postgresql://airflow:airflow@postgres:5432/stockdb")
 
         # Write to database
         try:
-            df.to_sql("raw_stock_data", engine, schema="test", if_exists="replace", index=False)
+            df.to_sql(
+                "raw_stock_data", 
+                engine, schema="test", 
+                if_exists="replace", 
+                index=False)
             logger.info("Data successfully written to raw_stock_data table.")
         except SQLAlchemyError as db_err:
             logger.info(f"Database error during to_sql: {db_err}")
