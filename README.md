@@ -4,18 +4,20 @@
 MarketVault/
 ├── airflow/
 │   ├── dags/
-│   └── config/
+│   └── logs/
+│   └── plugins/
 ├── dbt/
 │   └── models/
-├── superset/
-├── spark/
-│   └── scripts/
+│   └── logs/
 ├── postgres/
-│   └── init.sql
 ├── docker/
 │   └── airflow/
-│       └── dockerfile
+│   └── dbt/
+├── .github/
+│   └── workflows/
 ├── docker-compose.yml
+├── .gitignore
+├── makefile
 ├── requirements.txt
 ├── README.md
 └── LICENSE

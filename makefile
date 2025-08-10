@@ -16,3 +16,6 @@ restart:
 
 logs:
 	docker-compose -f docker-compose.yaml logs -f
+
+psql:
+	psql -h localhost -p 5433 -U airflow -d stockdb
