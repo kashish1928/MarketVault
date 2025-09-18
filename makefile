@@ -8,20 +8,19 @@ activate:
 
 # Run this whenever there are changes to the dockerfile or docker-compose file
 build:
-	docker-compose build
-	docker-compose -f docker-compose.yml up --build
+	docker-compose -f docker-compose.yaml up --build -d
 
 # Run this before every session to start up the docker containers
 up:
-	docker-compose -f docker-compose.yml up -d
+	docker-compose -f docker-compose.yaml up -d
 
 # Run this at the end of every session to stop the docker containers
 down:
-	docker-compose -f docker-compose.yml down
+	docker-compose -f docker-compose.yaml down
 
 # Run this to restart docker containers
 restart:
-	docker-compose -f docker-compose.yml restart
+	docker-compose -f docker-compose.yaml restart
 
 # Run this to view docker container logs
 logs:

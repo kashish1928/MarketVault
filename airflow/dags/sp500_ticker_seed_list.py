@@ -33,8 +33,9 @@ def get_sp500_tickers():
 with DAG(
     dag_id="sp_500_ticker_seed_list",
     start_date=datetime(2023, 1, 1),
-    schedule_interval="@quarterly",
-    catchup=False
+    schedule="@quarterly",
+    catchup=False,
+    tags=["prod","marketvault"]
 ) as dag:
     task = PythonOperator(
         task_id="get_sp500_tickers",

@@ -1,10 +1,19 @@
-FROM apache/airflow:2.7.0
+FROM apache/airflow:3.0.6
 
-# Switch to airflow user before installing packages
+# Step 1: Switch to root to install system dependencies
+USER root
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    libpq-dev \
+    python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Step 2: Switch back to airflow before installing Python packages
 USER airflow
 
-# Copy requirements.txt from the build context (adjust path if needed)
 COPY ../../requirements.txt /requirements.txt
 
-# Install Python packages
 RUN pip install --no-cache-dir -r /requirements.txt
