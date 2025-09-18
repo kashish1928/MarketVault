@@ -42,8 +42,9 @@ def fetch_and_store():
 with DAG(
     dag_id="stock_ingestion_test_dag",
     start_date=datetime(2023, 1, 1),
-    schedule_interval="@daily",
-    catchup=False
+    schedule="@daily",
+    catchup=False,
+    tags = ["dev","marketvault"]
 ) as dag:
     task = PythonOperator(
         task_id="fetch_stock_data",
