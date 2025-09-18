@@ -44,7 +44,7 @@ with DAG(
     start_date=datetime(2023, 1, 1),
     schedule="@daily",
     catchup=False,
-    tags = ["dev","marketvault"]
+    tags=["dev", "marketvault"]
 ) as dag:
     task = PythonOperator(
         task_id="fetch_stock_data",

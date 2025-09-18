@@ -35,7 +35,7 @@ with DAG(
     start_date=datetime(2023, 1, 1),
     schedule="@quarterly",
     catchup=False,
-    tags=["prod","marketvault"]
+    tags=["prod", "marketvault"]
 ) as dag:
     task = PythonOperator(
         task_id="get_sp500_tickers",
