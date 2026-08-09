@@ -83,6 +83,7 @@ docker compose ps
 
 | Service | Container Name | Host Port / Access | Description |
 | :--- | :--- | :--- | :--- |
+| **Apache Superset** | `superset` | `http://localhost:8088` | Data visualization & dashboarding platform (`admin`/`admin`) |
 | **PostgreSQL** | `postgres` | `localhost:5433` | Primary database (`stockdb`) & Airflow metadata backend |
 | **Redis** | `redis` | Internal `6379` | Celery message broker |
 | **Airflow Init** | `airflow-init` | N/A | One-time DB migration & admin user creation (`airflow`/`airflow`) |
@@ -96,11 +97,16 @@ docker compose ps
 
 ## Accessing Services & Testing
 
-### 1. Airflow Web UI
+### 1. Airflow Web UI & ETL Pipeline
 - **URL**: [http://localhost:8080](http://localhost:8080)
-- **Default Credentials**:
-  - **Username**: `airflow`
-  - **Password**: `airflow`
+- **Credentials**: `airflow` / `airflow`
+- **DAG**: `marketvault_etl_dag` (Ingests stock market data via `yfinance`, transforms data via `dbt run`, and executes `dbt test`).
+
+### 2. Apache Superset Dashboards
+- **URL**: [http://localhost:8088](http://localhost:8088)
+- **Credentials**: `admin` / `admin`
+- **Database**: Pre-configured connection to `MarketVault StockDB` (`stockdb`).
+- **Guide**: See [superset/README_SUPERSET.md](file:///Users/kashishhj/git/MarketVault/superset/README_SUPERSET.md) for step-by-step chart creation.
 
 ### 2. PostgreSQL Connection & Testing
 - **Connect via CLI**:
@@ -155,3 +161,5 @@ docker compose -f docker-compose.yaml logs -f
 | `make restart` | Restart all container services |
 | `make logs` | Stream live container logs |
 | `make psql` | Connect to PostgreSQL database CLI (`stockdb`) on `localhost:5433` |
+| `make dbt-run` | Run dbt models (`stg_stock_prices`, `fct_daily_stock_metrics`) inside container |
+| `make dbt-test` | Run dbt data quality assertions inside container |

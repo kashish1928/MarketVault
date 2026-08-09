@@ -2,10 +2,10 @@ default:
   outputs:
     dev:
       type: postgres
-      host: localhost
-      user: airflow
-      password: airflow
-      port: 5433
-      dbname: stockdb
-      schema: test
+      host: "{{ env_var('DBT_HOST', 'postgres') }}"
+      user: "{{ env_var('POSTGRES_USER', 'airflow') }}"
+      password: "{{ env_var('POSTGRES_PASSWORD', 'airflow') }}"
+      port: "{{ env_var('DBT_PORT', '5432') | int }}"
+      dbname: "{{ env_var('POSTGRES_DB', 'stockdb') }}"
+      schema: public
   target: dev

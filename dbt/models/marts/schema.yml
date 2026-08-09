@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: fct_daily_stock_metrics
+    description: "Fact model with daily stock metrics, returns, and moving averages"
+    columns:
+      - name: stock_date
+        description: "Trading date"
+        tests:
+          - not_null
+      - name: ticker
+        description: "Stock ticker symbol"
+        tests:
+          - not_null
+      - name: close_price
+        description: "Closing price"
+        tests:
+          - not_null
+      - name: moving_avg_7d
+        description: "7-day moving average"
+        tests:
+          - not_null

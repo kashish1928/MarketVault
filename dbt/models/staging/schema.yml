@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_stock_prices
+    description: "Staging model for cleaned daily stock price data"
+    columns:
+      - name: stock_date
+        description: "Trading date"
+        tests:
+          - not_null
+      - name: ticker
+        description: "Stock ticker symbol"
+        tests:
+          - not_null
+      - name: close_price
+        description: "Daily closing price"
+        tests:
+          - not_null

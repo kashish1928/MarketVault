@@ -29,3 +29,11 @@ logs:
 # Run this to connect to postgres server using CLI
 psql:
 	psql -h localhost -p 5433 -U airflow -d stockdb
+
+# Run dbt transformations inside Docker container
+dbt-run:
+	docker-compose -f docker-compose.yaml exec airflow-apiserver dbt run --project-dir /opt/airflow/dbt --profiles-dir /opt/airflow/dbt
+
+# Run dbt data quality tests inside Docker container
+dbt-test:
+	docker-compose -f docker-compose.yaml exec airflow-apiserver dbt test --project-dir /opt/airflow/dbt --profiles-dir /opt/airflow/dbt
